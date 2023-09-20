@@ -1,7 +1,8 @@
 :root{
-    --background-clr: rgb(227, 202, 135);
+    --background-clr: rgb(255, 255, 255);
     --border-color: navy;
     --shawdow-clr: teal;
+    --button-bg-clr: rgba(253, 168, 11, 0.671);
 }
 
 * {
@@ -38,3 +39,50 @@ header{
     justify-content: center;
 }
 
+
+.btn{
+    background:var(--button-bg-clr);
+    color: black;
+    font-weight: 500;
+    width: 100%;
+    border: 2px solid var(--background-clr);
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px 0;
+    text-align: left;
+    cursor: pointer;
+    
+}
+
+.btn:hover{
+    background: navy;
+    color: white;
+    transition: .5s;
+}
+
+#next-btn{
+    display: block;
+    background: var(--button-bg-clr);
+    color: black;
+    font-weight: 500;
+    width: 100px;
+    border: 0;
+    border-radius: 10px;
+    padding: 7px;
+    margin: 20px auto 0;
+    border-radius: 5px;
+    cursor: pointer;
+    
+}
+
+#next-btn:hover{
+    background: navy;
+    color: white;
+    transition: .5s;
+}
+
+#startBtn{
+    border: 2px;
+    text-align: center;
+    border-radius: 50px;
+}
