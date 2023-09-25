@@ -72,7 +72,7 @@ startButton.addEventListener('click', function(){
 function startQuiz(){
     currentQuestionIndex = 0;
     timerCount = 50;
-    startButton.disabled = true;
+    // startButton.disabled = true; hide the start button stle.siplay =''
     nextBtn.innerHTML = "Next";
     showQuestion();
     startTimer();
@@ -114,16 +114,30 @@ function showQuestion(){
     button.innerHTML = answer.btnText; // .text is to be use interchageably between "btnText"????
     button.classList.add('btn');
     answerEl.appendChild(button);
+
+
+    //console.log(typeof(answer.btnText));
+  
+    // console.log(key);
+
     if (currentQuestion.correctAnswer){
-        button.dataset.correctAnswer = quizQuestion.correctAnswer;
+        button.dataset.answers = quizQuestion.correctAnswer;
+        // console.log(button.dataset.answers.valueOf());
     }
+    //console.log(currentQuestion.answers);
+    //console.log(button.dataset);
+
     button.addEventListener('click', selectAnswer);
    });
 };
 
 function selectAnswer(event){
     var selectedBtn = event.target;
+    console.log(selectedBtn.answers); //as of 12:41pm 9.22.23 it is undefined
+    
     var isCorrect = selectedBtn.dataset.correctAnswer === "true";
+    console.log(isCorrect);
+
     if (isCorrect){
         selectedBtn.classList.add('correct');
         nextBtn.style.display = 'block';
