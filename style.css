@@ -5,7 +5,7 @@
     --button-bg-clr: rgba(253, 168, 11, 0.671);
 }
 
-* {
+*{
     box-sizing: border-box;
     margin:5px;
     padding: 5px;
@@ -24,6 +24,11 @@ header{
     flex-direction: row;
     margin: 0;
 }
+
+.hide{
+    display: none;
+}
+
 
 .focused-content{
     display: flex;
@@ -44,14 +49,15 @@ header{
     background:var(--button-bg-clr);
     color: black;
     font-weight: 500;
-    width: 100%;
+    width: 50%;
     border: 2px solid var(--background-clr);
     border-radius: 10px;
     padding: 10px;
     margin: 10px 0;
     text-align: left;
     cursor: pointer;
-    
+    /* display: flex;
+    justify-content: center; */
 }
 
 .btn:hover{
@@ -61,7 +67,6 @@ header{
 }
 
 #next-btn{
-    display: block;
     background: var(--button-bg-clr);
     color: black;
     font-weight: 500;
@@ -72,7 +77,6 @@ header{
     margin: 20px auto 0;
     border-radius: 5px;
     cursor: pointer;
-    
 }
 
 #next-btn:hover{
