@@ -1,5 +1,7 @@
 var questionEl = document.getElementById('question-block');
 var answerEl = document.getElementById('answers-buttons');
+var titleEl = document.getElementById('title-page');
+var sectionEl = document.getElementsByClassName('focused-content');
 
 var startButton = document.getElementById('startBtn');
 var timerEl = document.getElementById('timer-count');
@@ -7,7 +9,7 @@ var nextBtn = document.getElementById('next-btn');
 
 // Variables to call out the highscore havent got to this yet
 var highscoreEl = document.getElementById('highscore-check');
-var feedbackEl = document.getElementById('feedback-block');
+var homeEL = document.getElementById('home');
 
 var currentQuestionIndex = 0;
 var score = 0;
@@ -62,33 +64,31 @@ const quizQuestion = [
 // const currentQuestion = quizQuestion[currentQuestionIndex];
 
 // Event listner to ensure the correct function is working 
-startButton.addEventListener('click', function(){
+startButton.addEventListener('click', function() {
     startButton.disable = false;
     startQuiz();
-    //startTimer();
-}
+    }
 );
 
 // Function for starting the Quiz after clicking the start button 
 function startQuiz(){
-    //currentQuestionIndex = 0;
-    timerCount = 50;
+    timerCount = 20;
     showQuestion();
-    //startTimer();
+    startTimer();
 };
 
 // Function that handles the timer for the set of quiz questions beginning with the start button (the timer starts from a high # and descends and when the set of questions are finished then the number it lands will be the score)
 function startTimer(){
-    timer = setInterval(function(){
+    timer = setInterval( function () {
         timerCount--;
         timerEl.textContent = timerCount;
-        if(timerCount > 0){
+        if (timerCount > 0){
             // IF the rendered questioned are rendered and completed then I would like the timer to stop and run another funstion to store the timer on local storage  ""setTimeScore()""    
             console.log('timer is above 0');
         }
         if (timerCount === 0) {
             clearInterval(timer);
-            timerEl.textContent = 0;
+            // timerEl.textContent = 0;
             console.log('Thanks for taking the quiz');   
         }
     },1000);
@@ -103,7 +103,7 @@ function showQuestion(){
     questionEl.innerHTML = questionNo + '. ' + currentQuestion.question;
     
     // For each question (ref quizQuestion) this is rendering the answers from the array of objects (e.g. questions) and creating them as a button laid out
-    currentQuestion.answers.forEach(answer => {
+    currentQuestion.answers.forEach( answer => {
         const button = document.createElement('button');
         button.innerHTML = answer.btnText;
         button.classList.add('btn');
@@ -139,12 +139,56 @@ function checkAnswer(event){
 
 // Function used for the next button for moving the question up the index count
 function nextQuestion() {
+    //var currentQuestion = quizQuestion[currentQuestionIndex];
     if (currentQuestionIndex < quizQuestion.length-1) {
         currentQuestionIndex++;
         showQuestion(currentQuestionIndex);
-        checkAnswer(currentQuestionIndex);    
-    } 
+        checkAnswer(currentQuestionIndex);
+        startTimer(currentQuestionIndex);    
+
+    } else {
+        localStorage.setItem('Score', timerCount);
+        
+        // adding a list of the timer scores  
+        var scoreList = document.createElement('li');
+        scoreList.textContent = localStorage.getItem('Score')
+        sectionEl.appendChild(scoreList);
+
+        console.log("here is the end of the question list");
+    }
 };
+
+// function to address the highscores click
+function reviewScores(){
+    //  hiding all the elements that are shown from the previous page
+    highscoreEl.classList.add('hide');
+    questionEl.classList.add('hide');
+    answerEl.classList.add('hide');
+    startButton.classList.add('hide');
+    nextBtn.classList.add('hide');
+
+    // Adding the home link to return the home page
+    homeEL.classList.remove('hide');
+
+    // Adding the elements to the list the local storage info on it
+
+};
+
+
+// function to return back the home page
+function homeRefresh(){
+    highscoreEl.classList.remove('hide');
+    questionEl.classList.remove('hide');
+    answerEl.classList.remove('hide');
+    startButton.classList.remove('hide');
+
+    // Adding the home link to return the home page
+    homeEL.classList.add('hide');
+
+    
+}
 
 // event listner for the next button for the next button to 
 nextBtn.addEventListener('click', nextQuestion);
+highscoreEl.addEventListener('click', reviewScores);
+homeEL.addEventListener('click',homeRefresh);
