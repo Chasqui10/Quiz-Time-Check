@@ -10,11 +10,16 @@ var nextBtn = document.getElementById('next-btn');
 // Variables to call out the highscore havent got to this yet
 var highscoreEl = document.getElementById('highscore-check');
 var homeEL = document.getElementById('home');
+var listEl = document.getElementById('list-highscore');
 
 var currentQuestionIndex = 0;
 var score = 0;
 var timer;
 var timerCount;
+listEl.innerHTML = '';
+window.onload = function() {
+    displayScores();
+};
 
 // Lists of the questions as a object 
 const quizQuestion = [
@@ -31,12 +36,12 @@ const quizQuestion = [
     {
         question: "here is question 2?",
         answers: [
-            {btnText: 'Test 1'},
+            {btnText: 'Answer is here'},
             {btnText: 'Test 2'},
             {btnText: 'Test 3'},
             {btnText: 'Test 4'},
         ],
-        correctAnswer: 'Test 1'
+        correctAnswer: 'Answer is here'
     },
     {
         question: "here is question 3?",
@@ -44,19 +49,19 @@ const quizQuestion = [
             {btnText: 'Test 1'},
             {btnText: 'Test 2'},
             {btnText: 'Test 3'},
-            {btnText: 'Test 4'},
+            {btnText: 'Answer is here'},
         ],
-        correctAnswer: 'Test 4'
+        correctAnswer: 'Answer is here'
     },
     {
         question: "here is question 4?",
         answers: [
             {btnText: 'Test 1'},
             {btnText: 'Test 2'},
-            {btnText: 'Test 3'},
+            {btnText: 'Answer is here'},
             {btnText: 'Test 4'},
         ],
-        correctAnswer: 'Test 3'
+        correctAnswer: 'Answer is here'
     },
     
 ];
@@ -72,7 +77,7 @@ startButton.addEventListener('click', function() {
 
 // Function for starting the Quiz after clicking the start button 
 function startQuiz(){
-    timerCount = 20;
+    timerCount = 50;
     showQuestion();
     startTimer();
 };
@@ -133,9 +138,26 @@ function checkAnswer(event){
         nextBtn.classList.remove('hide');
     } else {
         selectedBtn.classList.add('incorrect');
-        // Need to add minus time for the timer here
-    }
+        // Need to add minus time for the timer if the answer is incorrect
+        timerCount = timerCount - 5;
+    } 
+    if(currentQuestionIndex === quizQuestion.length-1){
+        nextBtn.textContent = 'View Scores';
+        clearInterval(timer);
+        localStorage.setItem('Score', timerCount);
+        
+    }    
 };
+
+// for each local storage item that is stored it will be added to the list element 
+function displayScores(){
+
+    var scoreList = document.createElement('li');
+    scoreList.textContent = localStorage.getItem('Score');
+    listEl.appendChild(scoreList);
+    
+}
+
 
 // Function used for the next button for moving the question up the index count
 function nextQuestion() {
@@ -145,16 +167,10 @@ function nextQuestion() {
         showQuestion(currentQuestionIndex);
         checkAnswer(currentQuestionIndex);
         startTimer(currentQuestionIndex);    
-
-    } else {
-        localStorage.setItem('Score', timerCount);
         
-        // adding a list of the timer scores  
-        var scoreList = document.createElement('li');
-        scoreList.textContent = localStorage.getItem('Score')
-        sectionEl.appendChild(scoreList);
-
-        console.log("here is the end of the question list");
+    } else {
+        displayScores();
+        reviewScores();
     }
 };
 
@@ -166,11 +182,14 @@ function reviewScores(){
     answerEl.classList.add('hide');
     startButton.classList.add('hide');
     nextBtn.classList.add('hide');
-
+    
     // Adding the home link to return the home page
     homeEL.classList.remove('hide');
-
+    
     // Adding the elements to the list the local storage info on it
+    // ListEl is the ul element that is hidden and will be shown when the highscore is clicked
+    listEl.className.remove('hide');
+    scoreList.className.remove('hide');
 
 };
 
@@ -181,7 +200,7 @@ function homeRefresh(){
     questionEl.classList.remove('hide');
     answerEl.classList.remove('hide');
     startButton.classList.remove('hide');
-
+    
     // Adding the home link to return the home page
     homeEL.classList.add('hide');
 
